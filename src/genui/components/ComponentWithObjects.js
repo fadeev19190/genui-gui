@@ -85,6 +85,12 @@ class ComponentWithObjects extends React.Component {
 
   handleAddObject = (className, data) => {
     if (this.doPost) {
+      console.log("ComponentWithObjects POST:", {
+        url: this.objectListRoot.toString(),
+        className: className,
+        data: data
+      });
+
       fetch(this.objectListRoot.toString(), {
         method: 'POST',
         credentials: "include",
@@ -92,13 +98,40 @@ class ComponentWithObjects extends React.Component {
         headers: {
           'Content-Type': 'application/json'
         }
-      }).then(response => response.json()).then(
+      }).then(response => {
+        console.log("ComponentWithObjects response:", {
+          status: response.status,
+          ok: response.ok,
+          statusText: response.statusText
+        });
+
+        if (!response.ok) {
+          // Handle error responses (400, 500, etc.)
+          return response.json().then(errorData => {
+            console.error("Server error response:", errorData);
+            const errorMessage = typeof errorData === 'string'
+              ? errorData
+              : JSON.stringify(errorData, null, 2);
+            alert(`Failed to create ${className}:\n\n${errorMessage}`);
+            throw new Error(`HTTP ${response.status}: ${errorMessage}`);
+          }).catch(jsonError => {
+            // If response is not JSON, use status text
+            const errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+            alert(`Failed to create ${className}:\n\n${errorMessage}`);
+            throw new Error(errorMessage);
+          });
+        }
+
+        return response.json();
+      }).then(
           (data) => {
-            // console.log(data);
+            console.log("ComponentWithObjects success:", data);
             this.addToObjects(className, data)
           }
         ).catch(
-        (error) => console.log(error)
+        (error) => {
+          console.error("ComponentWithObjects error:", error);
+        }
       )
       ;
     } else {

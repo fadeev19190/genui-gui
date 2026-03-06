@@ -15,7 +15,7 @@ class TabWidget extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      activeTab: this.props.activeTab
+      activeTab: this.props.activeTab || (this.props.tabs && this.props.tabs[0] ? this.props.tabs[0].title : null)
     };
   }
 
@@ -24,12 +24,17 @@ class TabWidget extends Component {
       this.setState({
         activeTab: tab
       });
+      // Notify parent component of tab change if callback is provided
+      if (this.props.onTabChange) {
+        this.props.onTabChange(tab);
+      }
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    // If activeTab prop changes (e.g., restored from URL), update state
     if (this.props.activeTab && (prevProps.activeTab !== this.props.activeTab)) {
-      this.toggle(this.props.activeTab);
+      this.setState({ activeTab: this.props.activeTab });
     }
   }
 

@@ -33,7 +33,7 @@ class ModelPerformance extends React.Component {
       <Col sm="12">
         <ComponentWithPagedResources
           definition={{
-            performance: new URL('performance', this.props.modelUrl)
+            performance: new URL('performance/', this.props.modelUrl)
           }}
           updateInterval={2000}
           updateCondition={() => {

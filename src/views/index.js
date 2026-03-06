@@ -4,6 +4,7 @@ import ErrorPage from "./pages/404";
 import Compounds from './pages/compounds/Compounds';
 import Models from "./pages/models/Models"
 import DrugExPage from './pages/generators/drugex/DrugEx';
+import ReinventPage from './pages/generators/reinvent/Reinvent';
 import MapCreator from './pages/maps/create/MapCreator';
 import Maps from './pages/maps/display/MapDashboard';
 
@@ -38,6 +39,12 @@ const pageList = [
     path: "projects/:project/generators/drugex",
     key: 'generators',
     component: DrugExPage,
+  },
+  {
+    name: 'Reinvent',
+    path: "projects/:project/generators/reinvent",
+    key: 'generators',
+    component: ReinventPage,
   },
   {
     name: 'Map Creator',

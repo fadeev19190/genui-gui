@@ -1,5 +1,6 @@
 import React from 'react';
 import {GenericMolSetCard, MolsetActivitiesSummary, MolsInMolSetList, GenericInfo, EditMolSet} from '../../../../genui';
+import GeneratedSetErrorDisplay from './GeneratedSetErrorDisplay';
 
 function GeneratedCard(props) {
   const tabs = [
@@ -21,8 +22,18 @@ function GeneratedCard(props) {
     }
   ];
 
+  // Custom error component mapping for task errors
+  const errorClassToComponent = {
+    "<class 'ValueError'>": GeneratedSetErrorDisplay,
+    "builtins.ValueError": GeneratedSetErrorDisplay,
+  };
+
   return (
-    <GenericMolSetCard {...props} tabs={tabs}/>
+    <GenericMolSetCard
+      {...props}
+      tabs={tabs}
+      taskErrorClassToComponent={errorClassToComponent}
+    />
   )
 }
 

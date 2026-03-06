@@ -111,6 +111,10 @@ class DashboardLayout extends Component {
           {
             name: 'DrugEx',
             url: url + "generators/drugex/",
+          },
+          {
+            name: 'Reinvent',
+            url: url + "generators/reinvent/",
           }
         ],
       },

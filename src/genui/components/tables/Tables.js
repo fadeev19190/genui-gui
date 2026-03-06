@@ -31,7 +31,7 @@ export function TableDataFromItems (props) {
             const resolved = resolve(dprop, item);
             return (
               <td key={key({dummy : resolved})}>
-                {props.conversion ? props.conversion(resolved) : resolved.toString()}
+                {props.conversion ? props.conversion(resolved) : (resolved === null || resolved === undefined ? '' : resolved.toString())}
               </td>
             )
           })

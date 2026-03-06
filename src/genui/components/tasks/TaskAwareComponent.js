@@ -77,7 +77,9 @@ class TaskAwareComponent extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return this.tasksChanged(nextState.tasks);
+    // Always allow re-renders — the previous check blocked child updates
+    // (e.g. tab switches inside ModelCard) when tasks hadn't changed.
+    return true;
   }
 
   fetchTasks = () => {

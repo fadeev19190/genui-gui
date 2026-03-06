@@ -5,6 +5,10 @@ import { Field } from 'formik';
 import { FieldErrorMessage, ComponentWithObjects, GenericNewMolSetCard } from '../../../../genui';
 
 function ExtraFormFields(props) {
+  // Check if selected generator is a Reinvent generator
+  const selectedGenerator = props.generators.find(g => g.id === parseInt(props.formik?.values?.source));
+  const isReinvent = selectedGenerator && selectedGenerator.className === 'Reinvent';
+
   return (
     <React.Fragment>
 
@@ -21,8 +25,22 @@ function ExtraFormFields(props) {
       <FormGroup>
         <Label htmlFor="nSamples">Number of compounds to generate</Label>
         <Field name="nSamples" as={Input} type="number"/>
+        <FieldErrorMessage name="nSamples"/>
       </FormGroup>
-      <FieldErrorMessage name="nSamples"/>
+
+      {isReinvent && (
+        <FormGroup>
+          <Label htmlFor="minScore">Minimum Score Threshold (optional)</Label>
+          <Field name="minScore" as={Input} type="number" step="0.01" placeholder="e.g., 0.5" />
+          <small className="form-text text-muted">
+            Only include molecules with score ≥ this value. Leave empty to include all molecules.
+            <br />
+            <strong>Note:</strong> If the threshold is too high and no molecules meet the criteria,
+            the task will fail with an error showing the available score range. Start with a lower threshold (e.g., 0.5-0.7) and adjust based on the results.
+          </small>
+          <FieldErrorMessage name="minScore"/>
+        </FormGroup>
+      )}
     </React.Fragment>
   )
 }
@@ -42,12 +60,14 @@ function GeneratedCardNew(props) {
 
   const extraInitVals = {
     source : undefined,
-    nSamples : 100
+    nSamples : 100,
+    minScore : undefined
   };
 
   const extraValidSchemas = {
     source: Yup.number().integer().positive("Source generator ID has to be a positive number.").required('Source generator ID is required.'),
-    nSamples: Yup.number().min(1, 'Required number of generated compounds must be at least 1.').required('You must provide the number of samples.')
+    nSamples: Yup.number().min(1, 'Required number of generated compounds must be at least 1.').required('You must provide the number of samples.'),
+    minScore: Yup.number().min(0, 'Score must be non-negative.').max(1, 'Score must be between 0 and 1.').nullable()
   };
 
   return (

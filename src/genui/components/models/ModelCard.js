@@ -26,7 +26,7 @@ class ModelCard extends React.Component {
             progressURL={this.props.apiUrls.celeryProgress}
             item={model}
           />
-          <TabWidget {...this.props} modelUrl={modelUrl} tabs={this.props.tabs}/>
+          <TabWidget {...this.props} modelUrl={modelUrl} tabs={this.props.tabs} onTabChange={undefined} activeTab={undefined}/>
         </CardBody>
 
         <CardFooter>

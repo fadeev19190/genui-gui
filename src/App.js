@@ -37,6 +37,7 @@ const fetchBackendRoots = (callback) => {
                 qsarRoot : new URL('qsar/', REMOTE_API_ROOT),
                 generatorsRoot : generatorsURL,
                 drugexRoot : new URL('drugex/', generatorsURL),
+                reinventRoot : new URL('reinvent/', generatorsURL),
                 mapsRoot: new URL('maps/', REMOTE_API_ROOT),
                 celeryProgress : new URL('tasks/progress/', REMOTE_API_ROOT),
             });
